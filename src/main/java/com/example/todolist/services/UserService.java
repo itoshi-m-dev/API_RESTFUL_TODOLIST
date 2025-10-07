@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.todolist.entities.User;
 import com.example.todolist.repositories.UserRepository;
+import com.example.todolist.services.exceptions.DatabaseException;
 import com.example.todolist.services.exceptions.ResourceNotFound;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -47,6 +50,16 @@ public class UserService {
 		entity.setName(obj.getName());
 		entity.setEmail(obj.getEmail());
 
+	}
+	
+	public void remove(Long id) {
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFound(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 
 }

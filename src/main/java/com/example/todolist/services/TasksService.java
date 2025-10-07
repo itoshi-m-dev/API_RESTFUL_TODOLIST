@@ -50,8 +50,8 @@ public class TasksService {
 
 	}
 	
-	public void remove(Tasks obj) {
-		 repository.delete(obj);
+	public void remove(Long id) {
+		 repository.deleteById(id);;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.example.todolist.entities;
+package com.example.todolist.entities.enums;
 
 public enum TaskStatus {
 	PENDING,
