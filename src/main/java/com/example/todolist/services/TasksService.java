@@ -49,5 +49,9 @@ public class TasksService {
 		entity.setDue_date(obj.getDue_date());
 
 	}
+	
+	public void remove(Tasks obj) {
+		 repository.delete(obj);
+	}
 
 }

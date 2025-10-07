@@ -10,24 +10,43 @@ import com.example.todolist.entities.User;
 import com.example.todolist.repositories.UserRepository;
 import com.example.todolist.services.exceptions.ResourceNotFound;
 
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository repository;
-	
-	
-	public List<User> findAll(){
+
+	public List<User> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFound(id));
-				
+
 	}
-	
-	
-	
+
+	public User insert(User obj) {
+		return repository.save(obj);
+	}
+
+	public User update(Long id, User obj) {
+		try {
+		User entity = repository.getReferenceById(id);
+		updateData(entity, obj);
+		return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFound(id);
+		}
+		
+	}
+
+	private void updateData(User entity, User obj) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+
+	}
+
 }
