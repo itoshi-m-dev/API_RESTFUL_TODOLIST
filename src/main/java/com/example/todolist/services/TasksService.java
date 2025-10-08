@@ -5,8 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.todolist.entities.Tasks;
+import com.example.todolist.entities.User;
 import com.example.todolist.repositories.TasksRepository;
+import com.example.todolist.repositories.UserRepository;
 import com.example.todolist.services.exceptions.ResourceNotFound;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -16,6 +19,9 @@ public class TasksService {
 
 	@Autowired
 	public TasksRepository repository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public List<Tasks> findAll() {
 		return repository.findAll();
@@ -28,6 +34,11 @@ public class TasksService {
 	}
 
 	public Tasks insert(Tasks obj) {
+		if (obj.getUser() != null && obj.getUser().getId() != null) {
+			User user = userRepository.findById(obj.getUser().getId())
+					.orElseThrow(() -> new RuntimeException("User not Found"));
+					obj.setUser(user);
+		}
 		return repository.save(obj);
 	}
 
@@ -49,9 +60,9 @@ public class TasksService {
 		entity.setDue_date(obj.getDue_date());
 
 	}
-	
+
 	public void remove(Long id) {
-		 repository.deleteById(id);;
+		repository.deleteById(id);
 	}
 
 }
