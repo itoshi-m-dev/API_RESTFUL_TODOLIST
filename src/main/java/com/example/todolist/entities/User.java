@@ -1,21 +1,18 @@
 package com.example.todolist.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
 import java.util.Objects;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import jakarta.persistence.Table;
-
-import jakarta.persistence.Entity;
-
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -29,9 +26,11 @@ public class User implements Serializable {
 	private Long id;
 	private String name;
 	private String email;
-
+	
+	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Tasks> tasksList = new ArrayList<>();
+	@JsonIgnore
+	private Set<Tasks> tasksList = new HashSet<>();
 
 	public User() {
 
@@ -73,9 +72,11 @@ public class User implements Serializable {
 		return Objects.hash(id);
 	}
 
-	public List<Tasks> getTasksList() {
+	
+	public Set<Tasks> getTasksList() {
 		return tasksList;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {

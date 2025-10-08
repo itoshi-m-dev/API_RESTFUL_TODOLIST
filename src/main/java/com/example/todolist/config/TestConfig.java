@@ -20,12 +20,13 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	TasksRepository tasksRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
+
 		User u1 = new User(null, "Maria Silva", "maria@gmail.com");
 		User u2 = new User(null, "João Santos", "joao@gmail.com");
 		User u3 = new User(null, "Ana Costa", "ana.costa@gmail.com");
@@ -42,6 +43,7 @@ public class TestConfig implements CommandLineRunner {
 				LocalDate.of(2025, 10, 7), u2);
 
 		tasksRepository.saveAll(Arrays.asList(t1, t2, t3));
+		
 
 	}
 
