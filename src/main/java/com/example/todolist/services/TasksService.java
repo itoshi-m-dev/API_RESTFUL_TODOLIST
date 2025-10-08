@@ -58,6 +58,11 @@ public class TasksService {
 		entity.setDescription(obj.getDescription());
 		entity.setStatus(obj.getStatus());
 		entity.setDue_date(obj.getDue_date());
+		
+		if (obj.getUser() != null && obj.getUser().getId() != null) {
+			User user = userRepository.findById(obj.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found"));
+			entity.setUser(user);
+		}
 
 	}
 
